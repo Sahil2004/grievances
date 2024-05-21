@@ -34,8 +34,9 @@ if ($_POST["username"] != '') {
         echo "Connection Failed!" . mysqli_connect_error();
         die();
     }
-    $result = $conn->query("SELECT * FROM users NATURAL JOIN user_type WHERE username='" . $username . "';");
+    $result = $conn->query("SELECT * FROM users JOIN user_type WHERE users.role = user_type.id AND username='" . $username . "';");
     if ($result->num_rows <= 0) {
+        echo $row;
         echo "Error: User not found.";
         die();
     } else {
