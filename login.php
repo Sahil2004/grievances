@@ -26,7 +26,7 @@ function validateInput($data)
     $data = htmlspecialchars($data);
     return $data;
 }
-if (!empty($_POST["username"])) {
+if ($_POST["username"] != '') {
     $username = validateInput($_POST["username"]);
     $password = validateInput($_POST["password"]);
     $conn = mysqli_connect("localhost", "root", "", "grievances");
@@ -34,8 +34,7 @@ if (!empty($_POST["username"])) {
         echo "Connection Failed!" . mysqli_connect_error();
         die();
     }
-    $result = $conn->query("SELECT users.id as id, username, pwd, user_type.role FROM users JOIN user_type WHERE users.role = user_type.id AND username='" . $username . "'");
-    echo $result->num_rows;
+    $result = $conn->query("SELECT * FROM users NATURAL JOIN user_type WHERE username='" . $username . "';");
     if ($result->num_rows <= 0) {
         echo "Error: User not found.";
         die();
